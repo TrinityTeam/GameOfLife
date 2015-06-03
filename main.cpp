@@ -1,10 +1,11 @@
-#include <iostream>
+#include "game_of_life.h"
 
-using namespace std;
 
-int main()
-{
-    cout << "Hello World!" << endl;
+
+int main() {
+    GameOfLife game;
+    game.show();
+
     return 0;
 }
 

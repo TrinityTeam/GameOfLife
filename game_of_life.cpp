@@ -1,12 +1,5 @@
 #include "game_of_life.h"
 
-GameOfLife::GameOfLife()
-{
-
+GameOfLife::GameOfLife() {
+    window.show();
 }
-
-GameOfLife::~GameOfLife()
-{
-
-}
-

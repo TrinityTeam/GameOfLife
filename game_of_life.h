@@ -1,12 +1,18 @@
+#pragma once
 #ifndef GAMEOFLIFE_H
 #define GAMEOFLIFE_H
+class GameWindow;
+class GameLogic;
 
 
-class GameOfLife
-{
+
+class GameOfLife {
 public:
     GameOfLife();
-    ~GameOfLife();
+
+private:
+    GameWindow screen;
+
 };
 
 #endif // GAMEOFLIFE_H
