@@ -1,7 +1,7 @@
 #pragma once
 #ifndef GAMEOFLIFE_H
 #define GAMEOFLIFE_H
-class GameWindow;
+#include "game_window.h"
 class GameLogic;
 
 

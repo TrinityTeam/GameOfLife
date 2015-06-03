@@ -4,7 +4,7 @@
 
 int main() {
     GameOfLife game;
-    game.show();
+    ///@todo game.start();
 
     return 0;
 }
