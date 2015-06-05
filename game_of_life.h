@@ -11,7 +11,6 @@ public:
     GameOfLife();
 
 private:
-    GameWindow screen;
 
 };
 

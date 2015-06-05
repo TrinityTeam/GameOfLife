@@ -4,7 +4,6 @@
 
 int main() {
     GameOfLife game;
-    ///@todo game.start();
 
     return 0;
 }
