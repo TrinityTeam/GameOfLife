@@ -3,12 +3,16 @@
 
 
 GameOfLife::GameOfLife() {
-    std::array<std::bitset<100>, 100> field;
-    GameWindow screen;
-    screen.setField(&field);
 
+    GameWindow screen;
+    Logic logic;
+    screen.setField(&logic.getField());
+    logic.randomizeField();
     while(screen.isRunning()) {
         screen.renderOneFrame();
+        SDL_Delay(100);
+        logic.updateField();
+
     }
 
 }

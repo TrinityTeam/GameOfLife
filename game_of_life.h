@@ -2,7 +2,7 @@
 #ifndef GAMEOFLIFE_H
 #define GAMEOFLIFE_H
 #include "game_window.h"
-class GameLogic;
+#include "logic.h"
 
 
 

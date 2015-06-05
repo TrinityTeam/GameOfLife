@@ -10,9 +10,7 @@
 
 
 class GameWindow: public OpenGL_Window {
-    template <class T, size_t N> using array = std::array<T, N>;
-    template <size_t N> using bitset = std::bitset<N>;
-    using Vertex = array<float, 3>;
+    using Vertex = std::array<float, 3>;
 
 public:
     GameWindow();
@@ -29,7 +27,7 @@ private:
     void createIBO();
     void createShaders();
 
-    const array<bitset<100>, 100>* field;
+    const std::array<std::bitset<100>, 100>* field;
 
     Pipeline pipeline;
     GLuint shaderProgram;

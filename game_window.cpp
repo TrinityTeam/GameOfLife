@@ -85,7 +85,7 @@ void GameWindow::createShaders() {
 
 
 void GameWindow::createVBO() {
-    array<Vertex, 4> vertices;
+    std::array<Vertex, 4> vertices;
     vertices[0] = {-1.0f, 1.0f, 0.0f};
     vertices[1] = {-0.99f, 1.0f, 0.0f};
     vertices[2] = {-0.99f, 0.99f, 0.0f};
