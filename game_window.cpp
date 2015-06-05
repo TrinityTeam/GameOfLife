@@ -46,7 +46,7 @@ void GameWindow::renderGL() {
             glDrawArrays(GL_QUADS, 0, 4);
             pipeline.setWorldPosition(c, i, 0.0f);
             glUniformMatrix4fv(worldLocation, 1, GL_TRUE, (const GLfloat*)&pipeline.getTransformation());
-            glUniform1i(liveLocation, (GLint)(*field)[0][1]);
+            glUniform1i(liveLocation, (GLint)(*field)[c*100/2][-i*100/2]);
         }
     }
 

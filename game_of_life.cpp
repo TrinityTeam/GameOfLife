@@ -9,7 +9,6 @@ GameOfLife::GameOfLife() {
 
     while(screen.isRunning()) {
         screen.renderOneFrame();
-        field[0][1] = 0;
     }
 
 }
