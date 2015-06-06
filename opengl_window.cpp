@@ -68,35 +68,6 @@ void OpenGL_Window::renderOneFrame() {
 
 
 
-void OpenGL_Window::createShader(GLuint shaderProgram, GLint shaderType, const std::string& shaderText) {
-    GLuint shader = glCreateShader(shaderType);
-
-    const GLchar* p = shaderText.c_str();
-    GLint length = shaderText.length();
-    glShaderSource(shader, 1, &p, &length);
-    glCompileShader(shader);
-
-    GLint success;
-    glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-    if (not success) {
-        GLchar infoLog[1024];
-        glGetShaderInfoLog(shader, sizeof(infoLog), NULL, infoLog);
-        printf("Error compiling shader type %d : %s\n", shaderType, infoLog );
-    }
-
-    glAttachShader(shaderProgram, shader);
-    glLinkProgram(shaderProgram);
-
-    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-    if (not success) {
-        GLchar errorLog[1024];
-        glGetProgramInfoLog(shaderProgram, sizeof(errorLog), NULL, errorLog);
-        printf("Error linking shader program: %s\n", errorLog);
-    }
-}
-
-
-
 bool OpenGL_Window::isRunning() const {
     return running;
 }

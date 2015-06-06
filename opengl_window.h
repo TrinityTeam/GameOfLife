@@ -18,7 +18,6 @@ public:
 protected:
     virtual void renderGL() = 0;
     virtual void processEvent(SDL_Event& event);
-    void createShader(GLuint shaderProgram, GLint shaderType, const std::string& shaderText);
 
 private:
     void initSDL();

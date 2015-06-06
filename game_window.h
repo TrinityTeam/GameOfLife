@@ -6,6 +6,7 @@
 #include <array>
 #include <bitset>
 #include "pipeline.h"
+#include "shader_program.h"
 struct Vertex {
     Vertex()=default;
     Vertex(float x, float y, float z) : x(x), y(y), z(z){
@@ -36,7 +37,7 @@ private:
     const std::array<std::array<char, 100>, 100>* field;
 
     Pipeline pipeline;
-    GLuint shaderProgram;
+    ShaderProgram shaderProgram;
     GLuint VBO[100][100];
     GLuint worldLocation;
     GLuint stateLocation;

@@ -25,10 +25,10 @@ void GameWindow::initGL() {
     createVBOs();
     createShaders();
 
-    worldLocation = glGetUniformLocation(shaderProgram, "world");
+    worldLocation = glGetUniformLocation(shaderProgram.getGLProgram(), "world");
     assert(worldLocation != 0xFFFFFFFF);
 
-    stateLocation = glGetUniformLocation(shaderProgram, "cellState");
+    stateLocation = glGetUniformLocation(shaderProgram.getGLProgram(), "cellState");
     assert(stateLocation != 0xFFFFFFFF);
 }
 
@@ -77,11 +77,10 @@ void GameWindow::createShaders() {
         fragmentShader += c;
     }
 
-    shaderProgram = glCreateProgram();
-    createShader(shaderProgram, GL_VERTEX_SHADER, vertexShader.c_str());
-    createShader(shaderProgram, GL_FRAGMENT_SHADER, fragmentShader.c_str());
-    glValidateProgram(shaderProgram);
-    glUseProgram(shaderProgram);
+    shaderProgram.addShader(GL_VERTEX_SHADER, vertexShader.c_str());
+    shaderProgram.addShader(GL_FRAGMENT_SHADER, fragmentShader.c_str());
+    shaderProgram.useProgram();
+
 }
 
 
