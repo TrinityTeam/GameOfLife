@@ -13,7 +13,7 @@ GameWindow::GameWindow():
 
 
 
-void GameWindow::setField(const std::array<std::bitset<100>, 100>* field) {
+void GameWindow::setField(const std::array<std::array<char, 100>, 100>* field) {
     this->field = field;
 }
 
@@ -22,14 +22,14 @@ void GameWindow::setField(const std::array<std::bitset<100>, 100>* field) {
 void GameWindow::initGL() {
     glewInit();
 
-    createVBO();
+    createVBOs();
     createShaders();
 
     worldLocation = glGetUniformLocation(shaderProgram, "world");
     assert(worldLocation != 0xFFFFFFFF);
 
-    liveLocation = glGetUniformLocation(shaderProgram, "isLive");
-    assert(liveLocation != 0xFFFFFFFF);
+    stateLocation = glGetUniformLocation(shaderProgram, "cellState");
+    assert(stateLocation != 0xFFFFFFFF);
 }
 
 
@@ -38,18 +38,20 @@ void GameWindow::renderGL() {
     glClear(GL_COLOR_BUFFER_BIT);
 
     glEnableVertexAttribArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float)*3, 0);
 
-    for(float c = 0; c < 2; c+=0.01f) {
-        for(float i = 0; i > -2; i-=0.01f) {
+    pipeline.setWorldPosition(0.0f, 0.0f, 0.0f);
+    glUniformMatrix4fv(worldLocation, 1, GL_TRUE, (const GLfloat*)&pipeline.getTransformation());
+
+    for(short c = 0; c < 100; c++) {
+        for(short i = 0; i < 100; i++) {
+            glBindBuffer(GL_ARRAY_BUFFER, VBO[c][i]);
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float)*3, 0);
+
             glDrawArrays(GL_QUADS, 0, 4);
-            pipeline.setWorldPosition(c, i, 0.0f);
-            glUniformMatrix4fv(worldLocation, 1, GL_TRUE, (const GLfloat*)&pipeline.getTransformation());
-            glUniform1i(liveLocation, (GLint)(*field)[c*100/2][-i*100/2]);
+
+            glUniform1i(stateLocation, (GLint)(*field)[c][i]);
         }
     }
-
     glDisableVertexAttribArray(0);
     glFlush();
 }
@@ -84,25 +86,31 @@ void GameWindow::createShaders() {
 
 
 
-void GameWindow::createVBO() {
-    std::array<Vertex, 4> vertices;
-    vertices[0] = {-1.0f, 1.0f, 0.0f};
-    vertices[1] = {-0.99f, 1.0f, 0.0f};
-    vertices[2] = {-0.99f, 0.99f, 0.0f};
-    vertices[3] = {-1.0f, 0.99f, 0.0f};
+void GameWindow::createVBOs() {
+    for(short c = 0; c < 100; c++) {
+        glGenBuffers(100, VBO[c]);
+    }
 
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
+    for(short c = 0; c < 100; c++) {
+        for(short i = 0; i < 100; i++) {
+            int id[2] = {c, i};
+            float x = c/100.0f*2.0f;
+            float y = -i/100.0f*2.0f;
+            createVBO(id,
+                      {x-1, y+1, 0.0f});
+        }
+    }
 }
 
 
 
-void GameWindow::createIBO() {
-    /*unsigned int indices[] = {
-        3, 2, 1,    1, 0, 3,
-    };
-    glGenBuffers(1, &IBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);*/
+void GameWindow::createVBO(int id[2], const Vertex& leftTopCorner) {
+    std::array<Vertex, 4> vertices;
+    vertices[0] = leftTopCorner;
+    vertices[1] = {leftTopCorner.x+0.02f, leftTopCorner.y,       0.0f};
+    vertices[2] = {leftTopCorner.x+0.02f, leftTopCorner.y-0.02f, 0.0f};
+    vertices[3] = {leftTopCorner.x,       leftTopCorner.y-0.02f, 0.0f};
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO[id[0]][id[1]]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
 }

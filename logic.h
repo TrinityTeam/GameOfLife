@@ -2,16 +2,15 @@
 #ifndef LOGIC_H
 #define LOGIC_H
 #include <array>
-#include <bitset>
 
 
 
 class Logic {
     template <class T, size_t N> using array = std::array<T, N>;
-    template <size_t N> using bitset = std::bitset<N>;
 
 public:
-    using Field = array<bitset<100>, 100>;
+    using Field = array<array<char, 100>, 100>;
+    enum State {Dead = 0, Live = 1};
 
     Logic();
 

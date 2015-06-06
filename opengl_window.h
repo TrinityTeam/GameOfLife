@@ -9,7 +9,7 @@
 
 class OpenGL_Window {
 public:
-    OpenGL_Window(const std::string& windowTitle = "OpenGL render");
+    OpenGL_Window(const char* windowTitle = "OpenGL render");
     ~OpenGL_Window();
 
     void renderOneFrame();

@@ -6,16 +6,22 @@
 #include <array>
 #include <bitset>
 #include "pipeline.h"
+struct Vertex {
+    Vertex()=default;
+    Vertex(float x, float y, float z) : x(x), y(y), z(z){
+    }
+    Vertex(float coords[3]) : x(coords[0]), y(coords[1]), z(coords[2]){
+    }
+    float x, y, z;
+};
 
 
 
 class GameWindow: public OpenGL_Window {
-    using Vertex = std::array<float, 3>;
-
 public:
     GameWindow();
 
-    void setField(const std::array<std::bitset<100>, 100>* field);
+    void setField(const std::array<std::array<char, 100>, 100>* field);
 
 protected:
     virtual void renderGL() override;
@@ -23,18 +29,17 @@ protected:
 private:
     void initGL();
 
-    void createVBO();
-    void createIBO();
+    void createVBOs();
+    void createVBO(int id[2], const Vertex& leftTopCorner);
     void createShaders();
 
-    const std::array<std::bitset<100>, 100>* field;
+    const std::array<std::array<char, 100>, 100>* field;
 
     Pipeline pipeline;
     GLuint shaderProgram;
-    GLuint VBO;
-    GLuint IBO;
+    GLuint VBO[100][100];
     GLuint worldLocation;
-    GLuint liveLocation;
+    GLuint stateLocation;
 };
 
 #endif // GAMEWINDOW_H

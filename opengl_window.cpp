@@ -2,8 +2,9 @@
 
 
 
-OpenGL_Window::OpenGL_Window(const std::string& windowTitle) {
+OpenGL_Window::OpenGL_Window(const char* windowTitle) {
     initSDL();
+    SDL_SetWindowTitle(window, windowTitle);
     initGL();
 }
 
@@ -11,7 +12,6 @@ OpenGL_Window::OpenGL_Window(const std::string& windowTitle) {
 
 void OpenGL_Window::initGL() {
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
-
     glewInit();
 }
 
@@ -19,10 +19,9 @@ void OpenGL_Window::initGL() {
 
 void OpenGL_Window::initSDL() {
     SDL_Init(SDL_INIT_VIDEO);
-
     window = SDL_CreateWindow("OpenGL render",
                               SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                              800, 800,
+                              600, 600,
                               SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
     context = SDL_GL_CreateContext(window);
 
@@ -37,6 +36,12 @@ void OpenGL_Window::processEvent(SDL_Event& event) {
     switch(event.type) {
     case SDL_QUIT:
         running = false;
+        break;
+    case SDL_WINDOWEVENT:
+
+        int w, h;
+        SDL_GetWindowSize(window, &w, &h);
+        glViewport(0, 0, w, h);
         break;
     }
 }

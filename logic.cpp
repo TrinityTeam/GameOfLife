@@ -5,9 +5,14 @@
 
 
 Logic::Logic() {
-    field[2][2] = 0;    field[3][2] = 1;    field[4][2] = 0;   field[5][2] = 0;
-    field[2][3] = 0;    field[3][3] = 0;    field[4][3] = 1;   field[5][3] = 0;
-    field[2][4] = 1;    field[3][4] = 1;    field[4][4] = 1;   field[5][4] = 0;
+    field[0] = {1, 1, 1, 0};
+    field[1] = {0, 1, 1, 1};
+    field[2] = {1, 1, 1, 0};
+
+    /*field[0][0] = 1;
+    field[99][99] = 1;
+    field[0][99] = 1;
+    field[99][0] = 1;*/
 
 }
 
@@ -41,19 +46,19 @@ void Logic::updateField() {
 
     for(short c = 0; c < 100; c++) {
         for(short i = 0; i < 100; i++) {
-            if(field[c][i] == 0 and
+            if(field[c][i] == Dead and
                adjastent[c][i] == 3) {
-                field[c][i] = 1;
+                field[c][i] = Live;
             }
         }
     }
 
     for(short c = 0; c < 100; c++) {
         for(short i = 0; i < 100; i++) {
-            if(field[c][i] == 1 and
+            if(field[c][i] == Live and
                (adjastent[c][i] < 2 or
                 adjastent[c][i] > 3)) {
-                field[c][i] = 0;
+                field[c][i] = Dead;
             }
         }
     }
