@@ -7,13 +7,25 @@
 #include <bitset>
 #include "pipeline.h"
 #include "shader_program.h"
+#include "texture.h"
+
 struct Vertex {
-    Vertex()=default;
-    Vertex(float x, float y, float z) : x(x), y(y), z(z){
+    Vertex() {
+        x = y = z = u = v = 0.0f;
     }
-    Vertex(float coords[3]) : x(coords[0]), y(coords[1]), z(coords[2]){
-    }
+
+    Vertex(float x, float y, float z):
+        x(x), y(y), z(z), u(0.0f), v(0.0f) {}
+
+    Vertex(float x, float y, float z, float u, float v):
+        x(x), y(y), z(z), u(u), v(v) {}
+
+    Vertex(float coords[3], float tex_coords[2]):
+        x(coords[0]), y(coords[1]), z(coords[2]),
+        u(tex_coords[0]), v(tex_coords[1]){}
+
     float x, y, z;
+    float u, v;
 };
 
 
@@ -38,9 +50,11 @@ private:
 
     Pipeline pipeline;
     ShaderProgram shaderProgram;
+    Texture texture;
     GLuint VBO[100][100];
     GLuint worldLocation;
     GLuint stateLocation;
+    GLuint samplerLocation;
 };
 
 #endif // GAMEWINDOW_H

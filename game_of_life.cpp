@@ -10,7 +10,7 @@ GameOfLife::GameOfLife() {
     logic.randomizeField();
     while(screen.isRunning()) {
         screen.renderOneFrame();
-        //SDL_Delay(1000);
+        //SDL_Delay(10000);
         logic.updateField();
     }
 }

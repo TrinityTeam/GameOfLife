@@ -1,7 +1,9 @@
 #version 330
 
 out vec4 fragColor;
+in vec2 currentTextureCoord;
 uniform int cellState;
+uniform sampler2D sampler;
 
 
 void main() {
@@ -9,12 +11,7 @@ void main() {
 		fragColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	
 	} else if (cellState == 1) {
-		fragColor = vec4(0.0f, 0.0f, 0.0f, 1.0f);
+		fragColor = texture2D(sampler, currentTextureCoord.st);
 	
-	} else if (cellState == 2) {
-		fragColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);
-	
-	} else if (cellState == 3) {
-		fragColor = vec4(0.0f, 1.0f, 0.0f, 1.0f);
 	}
 }
